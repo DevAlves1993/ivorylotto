@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Bulk</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"></head>
+<body>
+<div class="container">
+  <div class="text-center" role="alert" th:if="${alert_message}" th:classappend="${alert_type}">
+    <span th:text="${alert_message}"></span>
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-header text-center">
+          <h4>Send SMS</h4>
+        </div>
+        <div class="card-body">
+          <form class="needs-validation" th:action="@{/sms/bulk/send}" method="post" th:object="${pojoSms}" novalidate>
+            <div class="form-group">
+              <label for="smsContent">Content</label>
+              <textarea id="smsContent" class="form-control" required maxlength="100"
+                        th:field="*{message}"></textarea>
+              <small class="form-text text-muted">
+                Un Maximum de 100 caractères est accepté, au delà de cette limite
+                plusieurs sms seront envoyé aux destinaires
+              </small>
+              <div class="valid-feedback">
+                Message is valid
+              </div>
+              <div class="invalid-feedback">
+                Message not valid
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="numbers"></label>
+              <input type="tel" id="numbers" class="form-control" required th:field="*{number}"/>
+              <div class="valid-feedback">
+                Number is valid
+              </div>
+              <div class="invalid-feedback">
+                Number is required
+              </div>
+            </div>
+            <button type="submit" class="btn btn-primary">Send</button>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">Bulk SMS</h3>
+        </div>
+        <div class="card-body">
+          <table class="table table-hover">
+            <thead>
+            <tr>
+              <th>Message Id</th>
+              <th>Message</th>
+              <th>From</th>
+              <th>To</th>
+              <th>Coast</th>
+              <th>Status</th>
+              <th>Created</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="sms : ${smsOutboxes}">
+              <td th:text="${sms.id}"></td>
+              <td th:text="${sms.message}"></td>
+              <td th:text="${sms.from}"></td>
+              <td th:text="${sms.to}"></td>
+              <td th:text="${sms.coast}"></td>
+              <td th:text="${sms.status}"></td>
+              <td th:text="${#temporals.format(sms.created)}"></td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+<script>
+    (function () {
+        'use strict';
+        window.addEventListener('load', function () {
+            // Fetch all the forms we want to apply custom Bootstrap validation styles to
+            var forms = document.getElementsByClassName('needs-validation');
+            // Loop over them and prevent submission
+            var validation = Array.prototype.filter.call(forms, function (form) {
+                form.addEventListener('submit', function (event) {
+                    if (form.checkValidity() === false) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                    }
+                    form.classList.add('was-validated');
+                }, false);
+            });
+        }, false);
+    })();
+</script>
+</html>

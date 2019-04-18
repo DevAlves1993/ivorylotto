@@ -1,0 +1,51 @@
+HELP.md
+/target/
+!.mvn/wrapper/maven-wrapper.jar
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+/build/
+
+### VS Code ###
+.vscode/
+
+webui/.DS_Store
+webui/node_modules
+webui/dist
+
+# local env files
+webui/.env.local
+webui/.env.*.local
+
+# Log files
+webui/npm-debug.log*
+webui/yarn-debug.log*
+webui/yarn-error.log*
+
+# Editor directories and files
+webui/.idea
+webui/.vscode
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
